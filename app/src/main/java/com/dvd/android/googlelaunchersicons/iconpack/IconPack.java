@@ -136,7 +136,8 @@ public class IconPack extends App {
     public Drawable getDrawableIconForPackage(String appPackageName) {
         if (!mLoaded) load();
 
-        mPackagesDrawables = new HashMap<>();
+        // why set to empty?
+        //mPackagesDrawables = new HashMap<>();
         PackageManager pm = mContext.getPackageManager();
         Intent launchIntent = pm.getLaunchIntentForPackage(appPackageName);
         String componentName = null;

@@ -84,6 +84,12 @@ public class IconChoosingActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void finish(){
+        super.finish();
+        iconPack.unload();
+    }
+
     private class LoadIcons extends AsyncTask<IconPack, Integer, Boolean> {
 
         private ProgressDialog progress;
@@ -103,7 +109,7 @@ public class IconChoosingActivity extends AppCompatActivity {
 
                 if (drawableName == null) continue;
 
-                Drawable drawable = iconPack.loadDrawable(drawableName);
+                Drawable drawable = iconPack.loadDrawable(drawableName, false);
 
                 if (drawable == null) continue;
 
@@ -112,7 +118,6 @@ public class IconChoosingActivity extends AppCompatActivity {
                 publishProgress(i, allDrawables.size());
             }
 
-            iconPack.unload();
             return true;
         }
 
@@ -142,7 +147,7 @@ public class IconChoosingActivity extends AppCompatActivity {
         }
 
         private void showDialog(int position) {
-            final Drawable icon = listIcons.get(position);
+            final Drawable icon = iconPack.loadDrawable(iconPack.getAllDrawables().get(position), true);
 
             ImageView iv = (ImageView) LayoutInflater.from(IconChoosingActivity.this).inflate(R.layout.icon, null);
 

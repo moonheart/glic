@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -125,10 +127,15 @@ public class IconPack extends App {
         return mAllDrawables;
     }
 
-    public Drawable loadDrawable(String drawableName) {
+    public Drawable loadDrawable(String drawableName, boolean fullSize) {
         int id = mIconPackRes.getIdentifier(drawableName, "drawable", packageName);
         if (id > 0) {
-            return mIconPackRes.getDrawable(id);
+            if(fullSize){
+                return mIconPackRes.getDrawable(id);
+            }
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 2;
+            return new BitmapDrawable(mIconPackRes, BitmapFactory.decodeResource(mIconPackRes, id, options));
         }
         return null;
     }
@@ -145,7 +152,7 @@ public class IconPack extends App {
             componentName = pm.getLaunchIntentForPackage(appPackageName).getComponent().toString();
         String drawable = mPackagesDrawables.get(componentName);
         if (drawable != null) {
-            return loadDrawable(drawable);
+            return loadDrawable(drawable, true);
         } else {
             // try to get a resource with the component filename
             if (componentName != null) {
@@ -154,7 +161,7 @@ public class IconPack extends App {
                 if (end > start) {
                     drawable = componentName.substring(start, end).toLowerCase(Locale.getDefault()).replace(".", "_").replace("/", "_");
                     if (mIconPackRes.getIdentifier(drawable, "drawable", packageName) > 0)
-                        return loadDrawable(drawable);
+                        return loadDrawable(drawable, true);
                 }
             }
         }

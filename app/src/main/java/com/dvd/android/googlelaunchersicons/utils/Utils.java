@@ -22,8 +22,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 
 import com.dvd.android.googlelaunchersicons.iconpack.IconPack;
 
@@ -112,12 +115,22 @@ public class Utils {
     }
 
     public byte[] drawableToByteArray(Drawable d, boolean resize) {
-        Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
 
+//        Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
+        Bitmap bitmap = getBitmapFromDrawable(d);
         if (resize) bitmap = Bitmap.createScaledBitmap(bitmap, 32, 32, false);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();
+    }
+
+    @NonNull
+    private Bitmap getBitmapFromDrawable(@NonNull Drawable drawable) {
+        final Bitmap bmp = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bmp);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bmp;
     }
 
     public Drawable byteArrayToDrawable(byte[] bytes) {

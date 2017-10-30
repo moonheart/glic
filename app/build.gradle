@@ -15,16 +15,15 @@
  */
 
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.dvd.android.googlelaunchersicons"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 3
         versionName "1.2"
     }
@@ -40,14 +39,14 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 //    compile 'com.android.support:appcompat-v7:24.1.1'
 //    compile 'com.android.support:recyclerview-v7:24.1.1'
-    compile 'com.afollestad:inquiry:3.2.1'
-    compile 'eu.chainfire:libsuperuser:1.0.0.201607041850'
-    compile 'com.simplecityapps:recyclerview-fastscroll:1.0.9'
-    compile 'com.github.javiersantos:AppUpdater:2.3'
+    implementation 'com.afollestad:inquiry:3.2.1'
+    implementation 'eu.chainfire:libsuperuser:1.0.0.201607041850'
+    implementation 'com.simplecityapps:recyclerview-fastscroll:1.0.9'
+    implementation 'com.github.javiersantos:AppUpdater:2.3'
 
-    compile 'com.jakewharton:butterknife:8.2.1'
-    apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    implementation 'com.jakewharton:butterknife:8.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.2.1'
 }

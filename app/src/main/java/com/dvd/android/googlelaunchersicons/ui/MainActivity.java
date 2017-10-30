@@ -101,10 +101,10 @@ public class MainActivity extends AppCompatActivity implements RootCallback {
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle("GLIC");
 
-        new AppUpdater(this)
-                .setUpdateFrom(UpdateFrom.XML)
-                .setUpdateXML(Utils.XML_UPDATE_CHECK)
-                .start();
+//        new AppUpdater(this)
+//                .setUpdateFrom(UpdateFrom.XML)
+//                .setUpdateXML(Utils.XML_UPDATE_CHECK)
+//                .start();
 
         mProgress = ProgressDialog.show(this, null, getString(R.string.loading), true, false);
         mIconsPacks = IconPackManager.getAvailableIconPacks(this);

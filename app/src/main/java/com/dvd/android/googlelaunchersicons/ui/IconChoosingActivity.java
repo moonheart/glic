@@ -85,9 +85,11 @@ public class IconChoosingActivity extends AppCompatActivity {
     }
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
-        iconPack.unload();
+        if (iconPack != null) {
+            iconPack.unload();
+        }
     }
 
     private class LoadIcons extends AsyncTask<IconPack, Integer, Boolean> {

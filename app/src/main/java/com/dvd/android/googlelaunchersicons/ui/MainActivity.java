@@ -102,7 +102,12 @@ public class MainActivity extends AppCompatActivity implements RootCallback {
 
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle("GLIC");
+        execShell("setenforce 0");
+
 //        new AppUpdater(this)
+//                .setUpdateFrom(UpdateFrom.XML)
+//                .setUpdateXML(Utils.XML_UPDATE_CHECK)
+//                .start();        new AppUpdater(this)
 //                .setUpdateFrom(UpdateFrom.XML)
 //                .setUpdateXML(Utils.XML_UPDATE_CHECK)
 //                .start();
@@ -366,7 +371,7 @@ public class MainActivity extends AppCompatActivity implements RootCallback {
         d.dismiss();
         changesMade = false;
 
-        execShell("am force-stop "+ LAUNCHER_PKG_NAME);
+        execShell("am force-stop com.google.android.apps.nexuslauncher");
         Toast.makeText(this, R.string.changes_saved, Toast.LENGTH_SHORT).show();
     }
 

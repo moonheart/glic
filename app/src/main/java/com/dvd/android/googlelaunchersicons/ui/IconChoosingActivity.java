@@ -30,6 +30,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.dvd.android.googlelaunchersicons.R;
 import com.dvd.android.googlelaunchersicons.iconpack.IconPack;
@@ -145,6 +146,7 @@ public class IconChoosingActivity extends AppCompatActivity {
                     showDialog(position);
                 }
             }));
+            Toast.makeText(getApplicationContext(),"finish",Toast.LENGTH_LONG).show();
 
         }
 

@@ -55,6 +55,8 @@ import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
+import java.io.DataOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements RootCallback {
 
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle("GLIC");
-
 //        new AppUpdater(this)
 //                .setUpdateFrom(UpdateFrom.XML)
 //                .setUpdateXML(Utils.XML_UPDATE_CHECK)
@@ -326,11 +327,32 @@ public class MainActivity extends AppCompatActivity implements RootCallback {
 
     }
 
+    private void execShell(String cmd){
+        try{
+            //权限设置
+            Process p = Runtime.getRuntime().exec("su");
+            //获取输出流
+            OutputStream outputStream = p.getOutputStream();
+            DataOutputStream dataOutputStream=new DataOutputStream(outputStream);
+            //将命令写入
+            dataOutputStream.writeBytes(cmd);
+            //提交命令
+            dataOutputStream.flush();
+            //关闭流操作
+            dataOutputStream.close();
+            outputStream.close();
+        }
+        catch(Throwable t)
+        {
+            t.printStackTrace();
+        }
+    }
+
     private void saveChanges() {
         ProgressDialog d = ProgressDialog.show(this, null, getString(R.string.saving_changes), true, false);
 
         ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        am.killBackgroundProcesses(LAUNCHER_PKG_NAME); // Kill launcher
+        //am.killBackgroundProcesses(LAUNCHER_PKG_NAME); // Kill launcher
 
         try {
             Utils.get(this).makeBackup();
@@ -344,6 +366,7 @@ public class MainActivity extends AppCompatActivity implements RootCallback {
         d.dismiss();
         changesMade = false;
 
+        execShell("am force-stop "+ LAUNCHER_PKG_NAME);
         Toast.makeText(this, R.string.changes_saved, Toast.LENGTH_SHORT).show();
     }
 
